@@ -28,5 +28,11 @@ def filter_files(bucket_name, prefix, pattern):
     all_files = list_files(bucket_name, prefix)
     return [f for f in all_files if re.search(pattern, f)]
 
-print(filter_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX, '.*\.jpg'))
+def delete_files(bucket_name, prefix, pattern):
+    files_to_delete = filter_files(bucket_name, prefix, pattern)
+    for file_key in files_to_delete:
+        s3.delete_object(Bucket=bucket_name, Key=file_key)
+
+print(list_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX))
+delete_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX, '.*\.txt')
 print(list_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX))

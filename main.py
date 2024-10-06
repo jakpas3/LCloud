@@ -24,6 +24,9 @@ def upload_file(file_name, bucket_name, prefix, object_name):
     object_name = prefix + file_name
     response = s3.upload_file(file_name, bucket_name, object_name)
 
-print(list_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX))
-upload_file('test.txt', AWS_BUCKET_NAME, AWS_BUCKET_PREFIX, None)
+def filter_files(bucket_name, prefix, pattern):
+    all_files = list_files(bucket_name, prefix)
+    return [f for f in all_files if re.search(pattern, f)]
+
+print(filter_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX, '.*\.jpg'))
 print(list_files(AWS_BUCKET_NAME, AWS_BUCKET_PREFIX))
